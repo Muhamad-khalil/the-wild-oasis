@@ -30,7 +30,10 @@ function CreateCabinForm() {
   });
 
   function submit(data) {
-    mutate(data);
+    mutate({
+      ...data,
+      image: data.image[0],
+    });
   }
 
   function onError(error) {
@@ -115,7 +118,15 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label="Cabin Photo">
-        <FileInput id="image" accept="image/*" disabled={isCreating} />
+        <FileInput
+          id="image"
+          accept="image/*"
+          type="file"
+          disabled={isCreating}
+          {...register("image", {
+            required: "This Field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
