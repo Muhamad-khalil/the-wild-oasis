@@ -20,7 +20,7 @@ function Cabins() {
         <Button onClick={() => setShowForm((show) => !show)}>
           Add New Cabin
         </Button>
-        {!showForm && <CreateCabinForm />}
+        {showForm && <CreateCabinForm />}
       </Row>
     </>
   );
