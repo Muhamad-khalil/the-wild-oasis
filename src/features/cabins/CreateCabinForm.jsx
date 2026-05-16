@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   // create cabins
   const { createCabin, isCreating } = useCreateCabin();
   // edit cabins
@@ -38,6 +38,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           onSuccess: (data) => {
             reset();
+            onCloseModal?.();
           },
         },
       );
@@ -50,6 +51,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           onSuccess: (data) => {
             reset();
+            onCloseModal?.();
           },
         },
       );
@@ -60,7 +62,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(submit, onError)}>
+    <Form
+      onSubmit={handleSubmit(submit, onError)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow label="cabin Name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -150,7 +155,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          onClick={() => onCloseModal?.()}
+          variation="secondary"
+          type="reset"
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>
