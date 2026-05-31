@@ -45,6 +45,7 @@ function App() {
 
           <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />
+          
         </Routes>
       </BrowserRouter>
 
@@ -68,6 +69,7 @@ function App() {
           },
         }}
       />
+
     </QueryClientProvider>
   );
 }
