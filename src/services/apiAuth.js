@@ -37,3 +37,42 @@ export async function logout() {
   let { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
 }
+
+export async function updateCurrentUser({ password, fullName, avatar }) {
+  let avatarUrl;
+
+  if (avatar) {
+    const fileName = `avatar-${Math.random()}-${avatar.name}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(fileName, avatar);
+
+    if (uploadError) throw new Error(uploadError.message);
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("avatars").getPublicUrl(fileName);
+
+    avatarUrl = publicUrl;
+  }
+
+  const updateData = {};
+
+  // update password
+  if (password) updateData.password = password;
+
+  // updata data user
+  if (fullName || avatarUrl) {
+    updateData.data = {};
+
+    if (fullName) updateData.data.fullName = fullName;
+    if (avatarUrl) updateData.data.avatar = avatarUrl;
+  }
+
+  const { data, error } = await supabase.auth.updateUser(updateData);
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
