@@ -1,9 +1,6 @@
 import styled, { css } from "styled-components";
 
-const test = css`
-  text-align: center;
-  /* background-color: yellow; */
-`;
+
 
 const Heading = styled.h1`
   ${(prop) =>
