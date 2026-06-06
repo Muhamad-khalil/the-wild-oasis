@@ -16,8 +16,8 @@ import { HiArrowUpOnSquare, HiTrash } from "react-icons/hi2";
 import { useCheckOut } from "../check-in-out/useCheckOut";
 import { useDeletedBooking } from "./useDeletedBooking";
 import Modal from "../../ui/Modal";
-import Menus from "../../ui/Menus";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Empty from "../../ui/Empty";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -39,6 +39,8 @@ function BookingDetail() {
     "checked-out": "silver",
   };
   if (isLoading) return <Spinner />;
+  if (!booking) return <Empty resource="Booking" />;
+
   const { status, id: bookingId } = booking;
 
   return (
